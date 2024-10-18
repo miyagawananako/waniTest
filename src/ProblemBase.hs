@@ -26,7 +26,8 @@ module ProblemBase(
   executeWithDNEDepth,
   executeTimeWithDepth,
   -- * Test
-  checkTests
+  checkTests,
+  getProofSearchResult
 )
  where
 import DTS.Prover.Wani.Prove (prove')
@@ -97,3 +98,6 @@ sigEs = [("r",U.Type),("q",U.Type),("p",U.Type)]
 -- | Used to perform a batch of tests
 checkTests :: [TestType] -> Bool 
 checkTests ts = and $ map (\f -> let (predicted,result) = f in predicted == (not $ null $ result) ) ts
+
+getProofSearchResult :: [TestType] -> [QT.ProofSearchResult]
+getProofSearchResult ts = map (\f -> let (predicted, result) = f in result) ts
