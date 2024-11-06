@@ -26,13 +26,14 @@ module ProblemBase(
   executeWithDNEDepth,
   executeTimeWithDepth,
   -- * Test
-  checkTests
+  checkTests,
+  getProofSearchResult
 )
  where
 import DTS.Prover.Wani.Prove (prove')
 import Control.Monad (forM)
 import qualified Data.Time as TIME
-import ListT (ListT,null)               --list-t
+import ListT (ListT,null,toList)               --list-t
 import qualified Interface.Tree as I
 import qualified DTS.QueryTypes as QT
 import qualified DTS.DTTdeBruijn as U
@@ -104,3 +105,10 @@ checkTests ts = do
     isNull <- ListT.null result
     return $ predicted == not isNull
   return $ and results
+
+getProofSearchResult :: [TestType] -> IO [[I.Tree QT.DTTrule U.Judgment]]
+getProofSearchResult ts = do
+  results <- forM ts $ \(predicted, result) -> do
+    resultList <- toList result
+    return resultList
+  return results
