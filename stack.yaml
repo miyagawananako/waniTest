@@ -8,7 +8,7 @@ extra-deps:
   - git: git@github.com:DaisukeBekki/hasktorch-tools.git
     commit: 936928cdee27e179a5e3775d146046b107b0eba1
   - git: git@github.com:miyagawananako/lightblue.git
-    commit: 0a7128d6aba7850ea57a071d17b79e797b366f39
+    commit: 1e10b77149ae89250b2c06fe7f1dc39396485e50
   # - /Users/daidohinari/blab/mycode/lightblue
 
 build:

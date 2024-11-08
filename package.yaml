@@ -25,6 +25,8 @@ dependencies:
   - list-t >= 1.0.0.0
   - lightblue >= 0.3
   - time >= 1.9.3
+  - store
+  - bytestring
 
 library:
   source-dirs: src
