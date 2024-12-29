@@ -40,7 +40,7 @@ aGirlWritesAThesis_IsThereAGirl =
     sigEnv = [("write",U.Pi (U.Con "entity") (U.Pi (U.Con "entity") (U.Type))),("thesis",U.Pi (U.Con "entity") (U.Type)),("girl",U.Pi (U.Con "entity") (U.Type)),("entity",U.Type)]
     varEnv = [aGirlWritesAThesis]
     pre_type = thereIsAGirl
-  in (True,executeWithDNEDepth 3 (U.ProofSearchQuery sigEnv varEnv pre_type))
+  in (True,executeWithDNEDepth 10 (U.ProofSearchQuery sigEnv varEnv pre_type))
 
 aGirlWritesAThesis' :: U.Preterm
 aGirlWritesAThesis' = 
@@ -57,7 +57,7 @@ aGirlWritesAThesis_IsThereAGirl'  =
     sigEnv = [("write",U.Pi (U.Con "entity") (U.Pi (U.Con "entity") (U.Type))),("thesis",U.Pi (U.Con "entity") (U.Type)),("girl",U.Pi (U.Con "entity") (U.Type)),("entity",U.Type)]
     varEnv = [aGirlWritesAThesis']
     pre_type = thereIsAGirl
-  in (True,executeWithDNEDepth 3 (U.ProofSearchQuery sigEnv varEnv pre_type))
+  in (True,executeWithDNEDepth 10 (U.ProofSearchQuery sigEnv varEnv pre_type))
 
 aManEntersHeWhistle :: U.Preterm
 aManEntersHeWhistle = 
@@ -89,4 +89,4 @@ aManEntersHeWhistle_IsThereMan =
     sigEnv = [("whistle",U.Pi (U.Con "entity") (U.Type)),("enter",U.Pi (U.Con "entity") (U.Type)),("man",U.Pi (U.Con "entity") (U.Type)),("entity",U.Type)]
     varEnv = [aManEntersHeWhistle]
     pre_type = thereIsAMan
-  in (True,executeWithDNEDepth 3 (U.ProofSearchQuery sigEnv varEnv pre_type))
+  in (True,executeWithDNEDepth 10 (U.ProofSearchQuery sigEnv varEnv pre_type))

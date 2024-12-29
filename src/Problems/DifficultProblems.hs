@@ -163,7 +163,7 @@ con3 =
     sigEnv = sigEs
     varEnv = []
     pre_type = U.Pi (U.Pi (U.Not q)  p) (U.Pi (U.Not p) q)
-  in    (True,executeWithDNEDepth 6 (U.ProofSearchQuery sigEnv varEnv pre_type))
+  in    (True,executeWithDNEDepth 10 (U.ProofSearchQuery sigEnv varEnv pre_type))
 
 con4 :: TestType
 con4 =
@@ -171,7 +171,7 @@ con4 =
     sigEnv = sigEs
     varEnv = []
     pre_type = U.Pi (U.Pi (U.Not p)  (U.Not q)) (U.Pi q p)
-  in   (True,executeWithDNEDepth 6 (U.ProofSearchQuery sigEnv varEnv pre_type))
+  in   (True,executeWithDNEDepth 10 (U.ProofSearchQuery sigEnv varEnv pre_type))
 
 mp :: TestType
 mp =

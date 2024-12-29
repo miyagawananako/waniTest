@@ -50,11 +50,11 @@ executeWithDepthMode depth mode = prove' QT.ProofSearchSetting{QT.maxDepth=Just 
 executeWithMode :: Maybe QT.LogicSystem
   -> U.ProofSearchQuery
   -> ProofSearchResult
-executeWithMode = executeWithDepthMode 5
+executeWithMode = executeWithDepthMode 10
 
 -- | To test with DNE
 executeWithDNE ::  U.ProofSearchQuery -> ProofSearchResult
-executeWithDNE = executeWithDNEDepth 9
+executeWithDNE = executeWithDNEDepth 10
 
 -- -- | To test with default setting
 execute :: U.ProofSearchQuery -> ProofSearchResult
