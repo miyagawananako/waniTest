@@ -14,7 +14,8 @@ yes = [
   aGirlWritesAThesis_IsThereAGirl,
   aGirlWritesAThesis_IsThereAGirl',
   aManEntersHeWhistle_IsThereWhistler,
-  aManEntersHeWhistle_IsThereMan]
+  aManEntersHeWhistle_IsThereMan,
+  entityCheck]
 
 notYes :: [PB.TestType]
 notYes = []
@@ -90,3 +91,29 @@ aManEntersHeWhistle_IsThereMan =
     varEnv = [aManEntersHeWhistle]
     pre_type = thereIsAMan
   in (True,executeWithDNEDepth 3 (U.ProofSearchQuery sigEnv varEnv pre_type))
+
+entityCheck :: PB.TestType
+entityCheck =
+  let
+    sigEnv = [
+                ("girl",U.Pi U.Entity U.Type),
+                ("leave",U.Pi U.Entity U.Type),
+                ("boy",U.Pi U.Entity U.Type),
+                ("cameIn",U.Pi U.Entity U.Type),
+                ("male",U.Pi U.Entity U.Type),
+                ("smile",U.Pi U.Entity U.Type),
+                ("boyIsMale",U.Pi (U.Sigma (U.Entity) (U.App (U.Con "boy") (U.Var 0))) (U.App (U.Con "male") (U.Proj U.Fst (U.Var 0))))
+              ]
+    varEnv = [
+                U.Sigma
+                  (U.Sigma U.Entity (U.App (U.Con "girl") (U.Var 0)))
+                  (U.Sigma
+                    (U.App (U.Con "leave") (U.Proj U.Fst (U.Var 0)))
+                    (U.Sigma
+                      (U.Sigma U.Entity (U.App (U.Con "boy") (U.Var 0)))
+                      (U.App (U.Con "cameIn") (U.Proj U.Fst (U.Var 0)))
+                    )
+                  )
+              ]
+    pre_type = U.Sigma (U.Entity) (U.App (U.Con "male") (U.Var 0))
+  in (True,PB.executeWithDepth 6 (U.ProofSearchQuery sigEnv varEnv pre_type))

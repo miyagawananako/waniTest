@@ -37,6 +37,7 @@ library:
   - Problems.SimpleProblems
   - Problems.DifficultProblems
   - Problems.NLPProblems
+  - Problems.OracleProblems
 
 executables:
   waniTEST: 
