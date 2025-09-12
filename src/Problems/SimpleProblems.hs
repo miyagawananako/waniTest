@@ -53,6 +53,7 @@ yes = [
   dneTest5,
   disjointIntroTest1,
   disjointIntroTest2,
+  disjointElimTest,
   disjointTest1,
   disjointTest2,
   disjointTest3,
@@ -516,6 +517,15 @@ disjointIntroTest2 =
     varEnv = [q]
     pre_type = U.Disj p q
   in (True,executeWithDNE (U.ProofSearchQuery sigEnv varEnv pre_type))
+
+disjointElimTest :: TestType
+disjointElimTest =
+  let
+    sigEnv = sigEs
+    varEnv = [U.Disj p q, U.Pi p r, U.Pi q r]
+    pre_type = r
+  in (True,executeWithDNE (U.ProofSearchQuery sigEnv varEnv pre_type))
+
 
 disjointTest1 :: TestType
 disjointTest1 =
