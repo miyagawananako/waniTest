@@ -26,6 +26,8 @@ module ProblemBase(
   executeWithDNEDepth,
   executeWithEFQDepth,
   executeTimeWithDepth,
+  executeWithOracle,
+  executeWithEFQOracle,
   -- * Test
   checkTests
 )
@@ -45,7 +47,25 @@ executeWithDepthMode :: Int
   -> Maybe QT.LogicSystem
   -> U.ProofSearchQuery
   -> ProofSearchResult
-executeWithDepthMode depth mode = prove' QT.ProofSearchSetting{QT.maxDepth=Just depth,QT.maxTime=Just 10000000,QT.logicSystem=mode}
+executeWithDepthMode = executeWithDepthModeOracle False
+
+executeWithDepthModeOracle :: Bool
+  -> Int
+  -> Maybe QT.LogicSystem
+  -> U.ProofSearchQuery
+  -> ProofSearchResult
+executeWithDepthModeOracle enableOracle depth mode = prove' QT.ProofSearchSetting{QT.maxDepth=Just depth,QT.maxTime=Just 300000,QT.logicSystem=mode,QT.neuralDTS = enableOracle}
+
+executeWithOracle :: Int
+  -> U.ProofSearchQuery
+  -> ProofSearchResult
+executeWithOracle depth = executeWithDepthModeOracle True depth Nothing 
+
+executeWithEFQOracle :: Int
+  -> U.ProofSearchQuery
+  -> ProofSearchResult
+executeWithEFQOracle depth = executeWithDepthModeOracle True depth (Just QT.Intuitionistic) 
+
 
 executeWithMode :: Maybe QT.LogicSystem
   -> U.ProofSearchQuery

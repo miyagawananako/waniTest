@@ -47,11 +47,13 @@ yes = [
   dneTest4,
   sigmaIntroTest1,
   sigmaIntroTest2,
+  sigmaElimTest,
   piElimTest5,
   piElimTest6,
   dneTest5,
   disjointIntroTest1,
   disjointIntroTest2,
+  disjointElimTest,
   disjointTest1,
   disjointTest2,
   disjointTest3,
@@ -481,6 +483,17 @@ piElimTest6 =
     pre_type =  U.Pi (U.Var 4) (U.Var 3)
   in (True,executeWithDNE (U.ProofSearchQuery sigEnv varEnv pre_type))
 
+sigmaElimTest :: TestType
+sigmaElimTest =
+  let
+    sigEnv = [
+                ("taro",U.Entity),
+                ("love",U.Pi (U.Entity) (U.Pi U.Entity U.Type))
+              ]
+    varEnv = [U.Pi (U.Entity) (U.Sigma (U.Entity) (U.App (U.App (U.Con "love") (U.Var 1)) (U.Var 0)))]
+    pre_type = U.Sigma (U.Entity) (U.App (U.App (U.Con "love") (U.Con "taro")) (U.Var 0))
+  in (True,PB.executeWithDepth 6 (U.ProofSearchQuery sigEnv varEnv pre_type))
+
 dneTest5 :: TestType
 dneTest5 =
   let
@@ -505,13 +518,22 @@ disjointIntroTest2 =
     pre_type = U.Disj p q
   in (True,executeWithDNE (U.ProofSearchQuery sigEnv varEnv pre_type))
 
+disjointElimTest :: TestType
+disjointElimTest =
+  let
+    sigEnv = sigEs
+    varEnv = [U.Disj p q, U.Pi p r, U.Pi q r]
+    pre_type = r
+  in (True,executeWithDNE (U.ProofSearchQuery sigEnv varEnv pre_type))
+
+
 disjointTest1 :: TestType
 disjointTest1 =
   let
     sigEnv = sigEs
     varEnv = [U.Disj (p) (U.Disj q r)]
     pre_type = U.Disj (U.Disj p q) (r)
-  in (True,executeWithDNE (U.ProofSearchQuery sigEnv varEnv pre_type))
+  in (True,executeWithDNEDepth 12 (U.ProofSearchQuery sigEnv varEnv pre_type))
 
 disjointTest2 :: TestType
 disjointTest2 =
