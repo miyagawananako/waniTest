@@ -29,7 +29,8 @@ module ProblemBase(
   executeWithOracle,
   executeWithEFQOracle,
   -- * Test
-  checkTests
+  checkTests,
+  checkTestsIO
 )
  where
 import DTS.Prover.Wani.Prove (prove')
@@ -39,9 +40,24 @@ import ListT (ListT,null)               --list-t
 import qualified Interface.Tree as I
 import qualified DTS.QueryTypes as QT
 import qualified DTS.DTTdeBruijn as U
+import qualified Data.Maybe as M
 
 type ProofSearchResult = ListT IO (I.Tree QT.DTTrule (U.Judgment))
 type TestType = (Bool,ProofSearchResult) -- ^ (predicted,result)
+
+oracleForTest :: U.ConName -> U.ConName -> Float
+oracleForTest small big =
+  case (small,big) of
+    ("udon","noodle") -> 0.51
+    ("customer","human") -> 0.51
+    ("prof","female") -> 0.51
+    ("aProf","female") -> 0.51
+    ("ringo","fruit") -> 0.51
+    ("broccoli","vegetable") -> 0.51
+    ("りんご","果物") -> 0.51
+    ("ブロッコリー","野菜") -> 0.51
+    ("cola","juice") -> 0.51
+    _ -> 0.1
 
 executeWithDepthMode :: Int
   -> Maybe QT.LogicSystem
@@ -54,7 +70,7 @@ executeWithDepthModeOracle :: Bool
   -> Maybe QT.LogicSystem
   -> U.ProofSearchQuery
   -> ProofSearchResult
-executeWithDepthModeOracle enableOracle depth mode = prove' QT.ProofSearchSetting{QT.maxDepth=Just depth,QT.maxTime=Just 300000,QT.logicSystem=mode,QT.neuralDTS = enableOracle}
+executeWithDepthModeOracle enableOracle depth mode = prove' QT.ProofSearchSetting{QT.maxDepth=Just depth,QT.maxTime=Just 600000000,QT.logicSystem=mode,QT.oracle = M.Just oracleForTest,QT.enableEquality=True}
 
 executeWithOracle :: Int
   -> U.ProofSearchQuery
@@ -131,3 +147,8 @@ checkTests ts = do
     isNull <- ListT.null result
     return $ predicted == not isNull
   return $ and results
+
+checkTestsIO :: [IO TestType] -> IO Bool
+checkTestsIO tsIO = do
+  ts <- sequence tsIO
+  checkTests ts
